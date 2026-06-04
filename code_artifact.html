@@ -20,17 +20,17 @@
     <style>
         /* 기본 설정 */
         :root {
-            --paper: #FAF9F4;
-            --powder: #B9C6E0;
-            --sky: #8DBFD8;
-            --periwinkle: #839BDA;
-            --blue: #558DEC;
-            --ink: #1E3156;
-            --muted: #60708F;
+            --paper: #FAF8F8;
+            --powder: #F7858D;
+            --sky: #F04953;
+            --periwinkle: #A81A22;
+            --blue: #F04953;
+            --ink: #2E4A4F;
+            --muted: #8C7D7E;
             --surface: rgba(255, 255, 255, 0.86);
-            --line: rgba(85, 141, 236, 0.18);
-            --soft-line: rgba(131, 155, 218, 0.18);
-            --shadow: 0 26px 80px rgba(85, 141, 236, 0.16);
+            --line: rgba(240, 73, 83, 0.22);
+            --soft-line: rgba(240, 73, 83, 0.16);
+            --shadow: 0 26px 80px rgba(240, 73, 83, 0.08);
         }
 
         * {
@@ -46,7 +46,7 @@
 
         body {
             background:
-                linear-gradient(180deg, var(--paper) 0%, #EEF4FB 42svh, #ffffff 100%);
+                linear-gradient(180deg, var(--paper) 0%, #FDF0F1 42svh, #ffffff 100%);
             color: var(--ink);
             line-height: 1.6;
         }
@@ -62,7 +62,7 @@
             justify-content: center;
             padding: clamp(22px, 4vw, 54px);
             background:
-                linear-gradient(180deg, var(--paper) 0%, #EEF4FB 58%, #ffffff 100%);
+                linear-gradient(180deg, var(--paper) 0%, #FDF0F1 58%, #ffffff 100%);
             isolation: isolate;
         }
 
@@ -72,7 +72,7 @@
             inset: 0;
             z-index: 0;
             background:
-                linear-gradient(180deg, rgba(250, 249, 244, 0.16) 0%, rgba(185, 198, 224, 0.48) 58%, #ffffff 100%);
+                linear-gradient(180deg, rgba(250, 248, 248, 0.08) 0%, rgba(240, 73, 83, 0.14) 58%, #ffffff 100%);
             opacity: 0;
             animation: revealStage 0.8s ease 3.1s forwards;
         }
@@ -80,12 +80,13 @@
         .hero-video-frame {
             position: absolute;
             top: 0;
-            left: 0;
+            left: 50%;
             width: 100%;
             height: 100%;
+            transform: translateX(-50%);
             z-index: 1;
             overflow: hidden;
-            border: 1px solid rgba(85, 141, 236, 0);
+            border: 4px solid rgba(255, 255, 255, 0);
             background-color: var(--paper);
             animation: shrinkVideo 1.95s cubic-bezier(0.16, 1, 0.3, 1) 3s forwards;
             will-change: top, left, width, height, transform, border-radius, box-shadow;
@@ -108,30 +109,6 @@
             opacity: 0;
             transform: translateY(38px);
             animation: riseCopy 0.95s cubic-bezier(0.19, 1, 0.22, 1) 3.35s forwards;
-        }
-
-        .hero-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 13px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(85, 141, 236, 0.26);
-            border-radius: 999px;
-            background: rgba(250, 249, 244, 0.78);
-            backdrop-filter: blur(12px);
-            font-size: 14px;
-            font-weight: 800;
-            letter-spacing: 0;
-        }
-
-        .hero-kicker::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--blue);
-            box-shadow: 0 0 0 5px rgba(85, 141, 236, 0.14);
         }
 
         .hero-text {
@@ -168,7 +145,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(85, 141, 236, 0.24);
+            border: 1px solid rgba(240, 73, 83, 0.32);
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.78);
             color: var(--blue);
@@ -185,7 +162,7 @@
             content: "";
             position: absolute;
             inset: 8px;
-            border: 1px solid rgba(131, 155, 218, 0.18);
+            border: 1px solid rgba(168, 26, 34, 0.22);
             border-radius: inherit;
         }
 
@@ -193,6 +170,64 @@
             width: 14px;
             height: 14px;
             margin-top: -4px;
+            border-right: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            transform: rotate(45deg);
+        }
+
+        /* 2.5 중간 스크롤 유도 아이콘 */
+        .middle-scroll-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 6px auto 38px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .middle-scroll-container.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .middle-scroll-cue {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(240, 73, 83, 0.32);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.86);
+            color: var(--blue);
+            text-decoration: none;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(240, 73, 83, 0.1);
+            animation: middleCueFloat 1.6s ease-in-out infinite;
+            position: relative;
+            transition: border-color 0.3s, color 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .middle-scroll-cue:hover {
+            border-color: var(--blue);
+            background-color: #ffffff;
+            color: var(--periwinkle);
+            box-shadow: 0 10px 28px rgba(240, 73, 83, 0.18);
+        }
+
+        .middle-scroll-cue::after {
+            content: "";
+            position: absolute;
+            inset: 6px;
+            border: 1px solid rgba(168, 26, 34, 0.22);
+            border-radius: inherit;
+        }
+
+        .middle-scroll-cue span {
+            width: 12px;
+            height: 12px;
+            margin-top: -3px;
             border-right: 2px solid currentColor;
             border-bottom: 2px solid currentColor;
             transform: rotate(45deg);
@@ -214,7 +249,7 @@
             height: 4px;
             margin: 0 auto 28px;
             border-radius: 999px;
-            background: linear-gradient(90deg, var(--powder), var(--sky), var(--blue));
+            background: linear-gradient(90deg, #F7858D, #F04953, #A81A22);
             opacity: 0;
             transform: scaleX(0.45);
             transform-origin: center;
@@ -231,7 +266,7 @@
             position: relative;
             overflow: hidden;
             background:
-                linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(250, 249, 244, 0.88));
+                linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(240, 73, 83, 0.08));
             border: 1px solid var(--line);
             border-radius: 8px;
             padding: clamp(30px, 5vw, 44px);
@@ -319,14 +354,14 @@
             justify-content: center;
             padding: 5px 10px;
             border-radius: 999px;
-            background-color: rgba(185, 198, 224, 0.32);
+            background-color: rgba(240, 73, 83, 0.12);
             color: var(--ink);
             font-size: 15px;
             font-weight: 900;
         }
 
         .info-list span {
-            color: #26395F;
+            color: #A81A22;
             font-weight: 600;
         }
 
@@ -338,8 +373,8 @@
             border: 1px solid var(--line);
             border-radius: 8px;
             background:
-                linear-gradient(160deg, rgba(255, 255, 255, 0.94), rgba(185, 198, 224, 0.18));
-            box-shadow: 0 14px 44px rgba(85, 141, 236, 0.12);
+                linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(240, 73, 83, 0.08));
+            box-shadow: 0 14px 44px rgba(240, 73, 83, 0.08);
             opacity: 0;
             transform: translateY(46px) scale(0.975);
             transition:
@@ -377,22 +412,22 @@
         .form-group input {
             width: 100%;
             padding: 16px;
-            border: 1px solid rgba(131, 155, 218, 0.34);
+            border: 1px solid rgba(240, 73, 83, 0.26);
             border-radius: 8px;
             font-size: 16px;
-            background-color: rgba(250, 249, 244, 0.84);
+            background-color: rgba(250, 246, 246, 0.84);
             color: var(--ink);
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .form-group input::placeholder {
-            color: rgba(30, 49, 86, 0.42);
+            color: rgba(46, 74, 79, 0.42);
         }
 
         .form-group input:focus {
             outline: none;
             border-color: var(--blue);
-            box-shadow: 0 0 0 4px rgba(85, 141, 236, 0.16);
+            box-shadow: 0 0 0 4px rgba(240, 73, 83, 0.16);
             background-color: #ffffff;
         }
 
@@ -413,7 +448,7 @@
         }
 
         .submit-btn:hover {
-            box-shadow: 0 16px 34px rgba(85, 141, 236, 0.3);
+            box-shadow: 0 16px 34px rgba(240, 73, 83, 0.32);
         }
 
         .submit-btn:active {
@@ -429,11 +464,11 @@
         @keyframes shrinkVideo {
             from {
                 top: 0;
-                left: 0;
+                left: 50%;
                 width: 100%;
                 height: 100%;
+                transform: translateX(-50%);
                 border-radius: 0;
-                transform: none;
                 box-shadow: none;
             }
             to {
@@ -441,11 +476,16 @@
                 left: 50%;
                 width: min(1120px, calc(100% - clamp(32px, 10vw, 96px)));
                 height: clamp(280px, 50svh, 500px);
-                border-radius: 8px;
                 transform: translateX(-50%);
-                border-color: rgba(250, 249, 244, 0.78);
-                box-shadow: 0 28px 90px rgba(85, 141, 236, 0.22);
+                border-radius: 8px;
+                border-color: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 28px 90px rgba(240, 73, 83, 0.22);
             }
+        }
+
+        @keyframes middleCueFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
         }
 
         @keyframes revealStage {
@@ -489,11 +529,11 @@
             @keyframes shrinkVideo {
                 from {
                     top: 0;
-                    left: 0;
+                    left: 50%;
                     width: 100%;
                     height: 100%;
+                    transform: translateX(-50%);
                     border-radius: 0;
-                    transform: none;
                     box-shadow: none;
                 }
                 to {
@@ -501,9 +541,10 @@
                     left: 50%;
                     width: calc(100% - 28px);
                     height: 42svh;
-                    border-radius: 8px;
                     transform: translateX(-50%);
-                    box-shadow: 0 24px 70px rgba(85, 141, 236, 0.22);
+                    border-radius: 8px;
+                    border-color: rgba(255, 255, 255, 0.95);
+                    box-shadow: 0 24px 70px rgba(240, 73, 83, 0.22);
                 }
             }
         }
@@ -564,7 +605,6 @@
         </div>
 
         <div class="hero-content">
-            <p class="hero-kicker">2026 사랑나눔 봉사</p>
             <div class="hero-text">
                 <h1><span class="highlight">빨간밥차</span>와 함께<br>따뜻한 한 끼를 전할 분을 찾습니다</h1>
             </div>
@@ -600,6 +640,13 @@
                     <span>2026. 6. 4 ~ 6. 8</span>
                 </li>
             </ul>
+        </div>
+
+        <!-- 스크롤 유도 아이콘 -->
+        <div class="middle-scroll-container">
+            <a class="middle-scroll-cue" href="#volunteerForm" aria-label="신청하기 양식으로 이동">
+                <span></span>
+            </a>
         </div>
 
         <!-- 입력 폼 구역 -->
@@ -652,15 +699,29 @@
         document.addEventListener('DOMContentLoaded', function() {
             lockInitialScrollTop();
 
-            const revealTargets = document.querySelectorAll('.main-container, .info-box, .form-box');
+            const revealTargets = document.querySelectorAll('.main-container, .info-box, .middle-scroll-container, .form-box');
             const scrollCue = document.querySelector('.scroll-cue');
+            const middleScrollCue = document.querySelector('.middle-scroll-cue');
             const volunteerInfo = document.getElementById('volunteer-info');
+            const volunteerFormBox = document.querySelector('.form-box');
 
             if (scrollCue && volunteerInfo) {
                 scrollCue.addEventListener('click', function(e) {
                     e.preventDefault();
 
                     volunteerInfo.scrollIntoView({
+                        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+                    });
+
+                    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+                });
+            }
+
+            if (middleScrollCue && volunteerFormBox) {
+                middleScrollCue.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    volunteerFormBox.scrollIntoView({
                         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
                     });
 
