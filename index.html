@@ -599,7 +599,7 @@
     <!-- 1. 영상 배경 인트로 섹션 -->
     <header class="hero-section">
         <div class="hero-video-frame">
-            <video class="hero-video" autoplay muted loop playsinline>
+            <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto">
                 <source src="./volunteer_video.mp4" type="video/mp4">
             </video>
         </div>
@@ -698,6 +698,26 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             lockInitialScrollTop();
+
+            // Safari 및 모바일 자동재생 보안 정책 대응 강제 실행
+            const video = document.querySelector('.hero-video');
+            if (video) {
+                video.muted = true;
+                video.playsInline = true;
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        // 사용자 상호작용(터치/클릭) 시 다시 재생 시도
+                        const forcePlay = () => {
+                            video.play();
+                            document.removeEventListener('click', forcePlay);
+                            document.removeEventListener('touchstart', forcePlay);
+                        };
+                        document.addEventListener('click', forcePlay);
+                        document.addEventListener('touchstart', forcePlay);
+                    });
+                }
+            }
 
             const revealTargets = document.querySelectorAll('.main-container, .info-box, .middle-scroll-container, .form-box');
             const scrollCue = document.querySelector('.scroll-cue');
